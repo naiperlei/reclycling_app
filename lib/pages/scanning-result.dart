@@ -14,7 +14,14 @@ class _ScanningResultState extends State<ScanningResult> {
   Color? camera_color = Colors.blue[200];
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    print(args);
+    var imagen_contenedor = ['plastic-bin','trash-bin','glass-bin','download'];
+    var type_container = ['Yellow','Gray','Green','Blue'];
+    var waste_type = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash'];
+    int n = 0;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: camera_color,
         title: Text('Classification'),
@@ -133,14 +140,14 @@ class _ScanningResultState extends State<ScanningResult> {
             mainAxisAlignment: MainAxisAlignment.center,
             children:[
               Image.asset(
-                'images/plastic-bin.png',
+                'images/${imagen_contenedor[n]}.png',
                 height:50,
               ),
               SizedBox(
                 width: 25,
               ),
               Text(
-                  'Yellow container',
+                  '${type_container[n]} container',
                 style: TextStyle(
                     color: Colors.grey,
                     fontSize: 20,
@@ -150,7 +157,7 @@ class _ScanningResultState extends State<ScanningResult> {
           ),
           SizedBox(height: 70),
           SizedBox(
-            height: 350,
+            height: 324,
             child: FlutterMap(
               options: MapOptions(
                 center: const LatLng(51.509364, -0.128928),
