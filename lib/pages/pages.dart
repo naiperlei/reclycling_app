@@ -1,0 +1,10 @@
+export 'package:recycle_me_this/pages/camera.dart';
+export 'package:recycle_me_this/pages/home.dart';
+export 'package:recycle_me_this/pages/loading.dart';
+export 'package:recycle_me_this/pages/location-permissions.dart';
+export 'package:recycle_me_this/pages/mapbin.dart';
+export 'package:recycle_me_this/pages/scanning-result.dart';
+export 'package:recycle_me_this/pages/search.dart';
+export 'package:recycle_me_this/pages/settings.dart';
+export 'package:recycle_me_this/pages/mapa_prueba.dart';
+export 'package:recycle_me_this/pages/help.dart';
