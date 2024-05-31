@@ -67,7 +67,7 @@ class _CameraState  extends State<Camera> {
     final url = Uri.parse('http://10.0.2.2:8000/predict');
     final request = http.MultipartRequest('POST', url);
     request.files.add(
-      http.MultipartFile(flutter config --android-sdk pathToYourSDK
+      http.MultipartFile(
         'file',
         image.readAsBytes().asStream(),
         image.lengthSync(),
