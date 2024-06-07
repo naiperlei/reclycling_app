@@ -1,10 +1,12 @@
 import 'dart:convert';
+//import 'dart:html';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 
 class Camera extends StatefulWidget {
   const Camera({super.key});
@@ -52,6 +54,12 @@ class _CameraState  extends State<Camera> {
   }
 
   Future _getImage(ImageSource source) async{
+     if(source == ImageSource.camera){
+       PermissionStatus cameraPermissionStatus = await Permission.camera.request();
+     }
+    if(source == ImageSource.gallery){
+      PermissionStatus galleryPermissionStatus = await Permission.photos.request();
+    }
     final image = await ImagePicker().pickImage(
         source: source,
     );

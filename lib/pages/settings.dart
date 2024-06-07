@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' as latLng;
 import 'package:recycle_me_this/blocs/blocs.dart';
@@ -8,7 +9,7 @@ class Settings extends StatefulWidget {
   const Settings({super.key});
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<Settings> createState() => _LocationPermission();
 }
 bool storage_perm = false;
 bool location_perm = false;
@@ -63,18 +64,42 @@ Future<bool> _isPermissionGranted() async{
   final isGranted = await Permission.location.isGranted;
   return isGranted;
 }
+class _LocationPermission extends State<Settings>{
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+            child: BlocBuilder<GpsBloc, GpsState>(
+              builder: (context, state) {
+                location_perm = state.isGpsPermissionGranted;
+                //askStorageAccess();
+                //saskCamAccess();
+                return SettingState();
+              },
+            )
+          //_AccessButton(),
+        ),
+      ),
+    );
+  }
+}
+class SettingState extends StatefulWidget {
+  const SettingState({super.key});
 
-class _SettingsState extends State<Settings> {
+  @override
+  State<SettingState> createState() => _SettingState();
+}
+
+class _SettingState extends State<SettingState> {
   Color? settings_color = Colors.grey[500];
 
   // Method to change location permission status
   Future<void> changeLocationPermissionStatus(bool value) async {
     if (value) {
       // If the switch is being turned on, request location permission
-      final status = await Permission.location.request();
-      setState(() {
-        location_perm = status == PermissionStatus.granted;
-      });
+      final gpsBloc = BlocProvider.of<GpsBloc>(context);
+      gpsBloc.askGpsAccess();
     } else {
       // If the switch is being turned off, open app settings
       openAppSettings();
@@ -89,7 +114,7 @@ class _SettingsState extends State<Settings> {
       // If the switch is being turned on, request location permission
       final status = await Permission.camera.request();
       setState(() {
-        location_perm = status == PermissionStatus.granted;
+        camera_perm = status == PermissionStatus.granted;
       });
     } else {
       // If the switch is being turned off, open app settings
@@ -102,9 +127,9 @@ class _SettingsState extends State<Settings> {
   Future<void> changeStoragePermissionStatus(bool value) async {
     if (value) {
       // If the switch is being turned on, request location permission
-      final status = await Permission.storage.request();
+      final status = await Permission.photos.request();
       setState(() {
-        location_perm = status == PermissionStatus.granted;
+        storage_perm = status == PermissionStatus.granted;
       });
     } else {
       // If the switch is being turned off, open app settings

@@ -105,7 +105,6 @@ class _Mapa_PruebaState extends State<Mapa_Prueba> {
   @override
   Widget build(BuildContext context) {
     List<Marker> getMarkersForCategory() {
-      print(clase);
       switch (clase) {
         case 0:
           return plasticMarkers;
